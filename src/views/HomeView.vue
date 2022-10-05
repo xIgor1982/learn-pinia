@@ -1,47 +1,36 @@
 <template>
 	<div class="home">
-		<div class="count">
-			{{ count }}
-		</div>
+		<Counter />
 		<div class="buttons">
-			<button @click="decrementCount">-</button>
-			<button @click="incrementCount">+</button>
+			<button @click="storeCount.decrementCount">-</button>
+			<button @click="storeCount.incrementCount">+</button>
 		</div>
 		<hr />
 		<div>
-			Это четное или нечетное число: <strong>{{ oddOrEvent }}</strong>
+			Это четное или нечетное число:
+			<strong>{{ storeCount.oddOrEvent }}</strong>
 		</div>
+		<hr />
+		<div>
+			<h3>Редактировать count:</h3>
+			<input v-model="storeCount.count" class="edit-count" type="number" />
+		</div>
+		<hr />
 	</div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import Counter from '@/components/Counter.vue'
+import { useCounterStore } from '@/stores/counter';
 
-const count = ref(0);
-
-const incrementCount = () => {
-	count.value++;
-};
-
-const decrementCount = () => {
-	count.value--;
-};
-
-const oddOrEvent = computed(() => {
-	if (count.value % 2 === 0) return 'четное';
-	else return 'нечетное';
-});
+const storeCount = useCounterStore();
 </script>
 
-<style>
-.count {
-	font-size: 60px;
-	margin: 20px;
-}
-
+<style scope>
 .buttons button {
-	font-size: 40px;
-	padding: 10px 30px;
 	margin: 5px;
+}
+input.edit-count {
+	font-size: 30px;
 }
 </style>
